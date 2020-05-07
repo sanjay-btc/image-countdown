@@ -1,8 +1,8 @@
 <h1 id="counter"></h1>
 <img id="image" height="200px" width="200px">
-<button onclick="save_play_data()" id="btn">Save</button>
+<button onclick="savePlayData()" id="btn">Save</button>
 <br><br>
-<table id="table">
+<table id="plays">
   <thead>
     <th>Image URL</th>
     <th>Counter</th>
@@ -39,23 +39,16 @@
     time = time <= 1 ? 10 : (time - 1);
   }
 
-  function save_play_data() {
+  function savePlayData() {
     var xhr = new XMLHttpRequest();
     // Response
     xhr.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        debugger;
         var response = JSON.parse(this.responseText);
-        var table = document.getElementById("table");
-        var row = table.insertRow(-1);
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        cell1.innerHTML = response["url"]
-        cell2.innerHTML = response["count"]
+        appendRow(response);
       }
     };
     // Response
-
 
     // Request
     xhr.open('POST', '/plays/create', true);
@@ -67,5 +60,12 @@
     // Request
   }
 
-
+  function appendRow(response){
+    var table = document.getElementById("plays");
+    var row = table.insertRow(-1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    cell1.innerHTML = response["url"]
+    cell2.innerHTML = response["count"]
+  }
 </script>
