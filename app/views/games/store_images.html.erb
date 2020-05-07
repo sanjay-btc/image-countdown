@@ -1,0 +1,33 @@
+<h1 id="counter"></h1>
+<img id="image" height="200px" width="200px">
+<button onclick="save_play_data()" id="btn" data-ctr-value="" data-img-value="">Save</button>
+<script type="text/javascript">
+  var time = 10;
+
+  var countDown = setInterval(playGame, 2000);
+
+  function playGame(){
+    countDownTimer();
+  }
+
+  function countDownTimer(){
+    var cnt = parseInt("<%= img_ctr = 0 %>");
+    var image_urls = "<%= @image_urls %>";
+    console.log(image_urls);
+    document.getElementById('counter').innerHTML = time;
+    document.getElementById('image').src = "../"+ image_urls[cnt];
+    cnt = parseInt("<%= img_ctr % @image_urls.length %>");
+    cnt = cnt + 1;
+    time = time <= 1 ? 10 : (time - 1);
+  }
+
+  function save_play_data(){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {};
+      xhr.open('POST', '/plays/create', true);
+      image_url = document.getElementById('image').src
+      counter = document.getElementById('counter').innerHTML;
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.send("image_url="+image_url+"&counter="+counter);
+    }
+</script>
