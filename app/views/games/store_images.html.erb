@@ -1,6 +1,6 @@
 <h1 id="counter"></h1>
 <img id="image" height="200px" width="200px">
-<button onclick="savePlayData()" id="btn">Save</button>
+<button onclick="savePlayData()" id="btn">Click!</button>
 <br><br>
 <table id="plays">
   <thead>
@@ -18,54 +18,4 @@
     <% end %>
   </tbody>
 </table>
-<% @image_urls = cookies[:image_urls].class == String ? cookies[:image_urls].split("&") : cookies[:image_urls] %>
-
-<script type="text/javascript">
-  var time = 10;
-  var cnt = 0;
-  var countDown = setInterval(playGame, 1000);
-
-  function playGame(){
-    countDownTimer();
-  }
-
-  function countDownTimer(){
-    var image_urls = "<%= @image_urls %>";
-    var image_urls_cnt = parseInt("<%= @image_urls.length %>");
-    image_urls = JSON.parse(image_urls.replace(/&quot;/g,'"'));
-    document.getElementById('counter').innerHTML = time;
-    document.getElementById('image').src = "../"+ image_urls[cnt];
-    cnt = (cnt + 1) == image_urls_cnt ? 0 : (cnt + 1);
-    time = time <= 1 ? 10 : (time - 1);
-  }
-
-  function savePlayData() {
-    var xhr = new XMLHttpRequest();
-    // Response
-    xhr.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        var response = JSON.parse(this.responseText);
-        appendRow(response);
-      }
-    };
-    // Response
-
-    // Request
-    xhr.open('POST', '/plays/create', true);
-    image_url = document.getElementById('image').src
-    counter = document.getElementById('counter').innerHTML;
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.setRequestHeader("Accept", "application/json");
-    xhr.send("image_url=" + image_url + "&counter=" + counter);
-    // Request
-  }
-
-  function appendRow(response){
-    var table = document.getElementById("plays");
-    var row = table.insertRow(-1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    cell1.innerHTML = response["url"]
-    cell2.innerHTML = response["count"]
-  }
-</script>
+<%= render partial: 'image_counter_script' %>

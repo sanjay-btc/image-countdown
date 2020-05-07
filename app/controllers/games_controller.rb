@@ -14,11 +14,12 @@ class GamesController < ApplicationController
 
   def copy_file_to_public(image)
     tmp = image.tempfile
-    file = File.join('public', image.original_filename)
+    file = File.join('public/games', image.original_filename)
     FileUtils.cp tmp.path, file
   end
 
   def img_public_paths
+    Dir.mkdir('public/games') unless Dir.exist?('public/games')
     params[:image].each_with_object([]) do |image, image_urls|
       copy_file_to_public(image)
       image_urls << image.original_filename
