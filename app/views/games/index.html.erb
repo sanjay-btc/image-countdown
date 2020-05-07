@@ -1,0 +1,7 @@
+<h1>Home</h1>
+<%= form_with url: games_store_images_path do |f| %>
+  <%= f.label :image, "Image" %>
+  <%= f.file_field :image, multiple: true %>
+
+  <%= f.submit 'Submit' %>
+<% end %>
