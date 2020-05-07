@@ -1,23 +1,40 @@
 <h1 id="counter"></h1>
 <img id="image" height="200px" width="200px">
-<button onclick="save_play_data()" id="btn" data-ctr-value="" data-img-value="">Save</button>
+<button onclick="save_play_data()" id="btn">Save</button>
+<br><br>
+<table>
+  <thead>
+    <th>Image URL</th>
+    <th>Counter</th>
+  </thead>
+  <tbody>
+    <% if @plays.present? %>
+      <% @plays.each do |play| %>
+        <tr>
+          <td><%= play.image_url %></td>
+          <td><%= play.counter %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
 <script type="text/javascript">
   var time = 10;
-
-  var countDown = setInterval(playGame, 2000);
+  var cnt = 0;
+  var countDown = setInterval(playGame, 4000);
 
   function playGame(){
     countDownTimer();
   }
 
   function countDownTimer(){
-    var cnt = parseInt("<%= img_ctr = 0 %>");
     var image_urls = "<%= @image_urls %>";
-    console.log(image_urls);
+    var image_urls_cnt = parseInt("<%= @image_urls.length %>");
+    image_urls = JSON.parse(image_urls.replace(/&quot;/g,'"'));
     document.getElementById('counter').innerHTML = time;
     document.getElementById('image').src = "../"+ image_urls[cnt];
-    cnt = parseInt("<%= img_ctr % @image_urls.length %>");
-    cnt = cnt + 1;
+    cnt = (cnt + 1) == image_urls_cnt ? 0 : (cnt + 1);
     time = time <= 1 ? 10 : (time - 1);
   }
 

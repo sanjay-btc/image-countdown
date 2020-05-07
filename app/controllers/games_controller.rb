@@ -7,6 +7,7 @@ class GamesController < ApplicationController
 
   def store_images
     @image_urls = cookies[:image_urls] = img_public_paths if params[:image].present?
+    @plays = Play.all
   end
 
   private
