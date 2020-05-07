@@ -18,11 +18,12 @@
     <% end %>
   </tbody>
 </table>
+<% @image_urls = cookies[:image_urls].class == String ? cookies[:image_urls].split("&") : cookies[:image_urls] %>
 
 <script type="text/javascript">
   var time = 10;
   var cnt = 0;
-  var countDown = setInterval(playGame, 4000);
+  var countDown = setInterval(playGame, 1000);
 
   function playGame(){
     countDownTimer();
